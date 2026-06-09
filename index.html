@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sreyhong Heng — Data Analyst &amp; ML</title>
+<meta name="description" content="Sreyhong Heng — third-year Applied Mathematics & Statistics student at ITC. Data analysis, machine learning, and the numerical methods underneath.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230E1726'/><g fill='%230FB5A6'><rect x='8' y='17' width='4' height='8' rx='1'/><rect x='14' y='12' width='4' height='13' rx='1'/><rect x='20' y='8' width='4' height='17' rx='1'/></g></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  :root{
+    --ink:#0E1726;
+    --paper:#F4F6F8;
+    --surface:#FFFFFF;
+    --line:rgba(14,23,38,0.10);
+    --line-2:rgba(14,23,38,0.18);
+    --grid:rgba(14,23,38,0.04);
+    --accent:#0FB5A6;
+    --accent-ink:#0A8C80;
+    --accent-2:#F4794B;
+    --muted:#5E6C82;
+    --muted-soft:#8A95A6;
+    --font-display:'Space Grotesk',system-ui,sans-serif;
+    --font-body:'Inter',system-ui,sans-serif;
+    --font-mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--font-body);
+    color:var(--ink);
+    background-color:var(--paper);
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size:32px 32px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{font-family:var(--font-display);letter-spacing:-0.02em;line-height:1.08;font-weight:700}
+  a{color:inherit;text-decoration:none}
+  svg{display:block}
+  .container{max-width:1080px;margin:0 auto;padding:0 24px}
+
+  a:focus-visible,.btn:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+
+  /* ---- Nav ---- */
+  .nav{position:sticky;top:0;z-index:50;background:rgba(244,246,248,0.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .25s,background .25s}
+  .nav.scrolled{border-bottom-color:var(--line);background:rgba(244,246,248,0.93)}
+  .nav-inner{max-width:1080px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .brand{font-family:var(--font-display);font-weight:700;font-size:1.05rem}
+  .brand .d{color:var(--accent)}
+  .nav-right{display:flex;align-items:center;gap:8px}
+  .nav-links{display:flex;align-items:center;gap:2px}
+  .nav-links a{font-family:var(--font-mono);font-size:0.82rem;color:var(--muted);padding:8px 12px;border-radius:8px;transition:color .15s,background .15s}
+  .nav-links a:hover{color:var(--ink);background:rgba(14,23,38,0.05)}
+  .nav-links a.active{color:var(--accent-ink)}
+
+  /* ---- Buttons ---- */
+  .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:0.85rem;font-weight:500;padding:11px 20px;border-radius:10px;border:1px solid transparent;cursor:pointer;transition:transform .15s,background .2s,border-color .2s,color .2s;white-space:nowrap}
+  .btn-primary{background:var(--ink);color:#fff}
+  .btn-primary:hover{background:var(--accent-ink);transform:translateY(-2px)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent-ink);transform:translateY(-2px)}
+  .btn-sm{font-size:0.78rem;padding:9px 15px;border-radius:9px}
+  .btn-cv{background:var(--ink);color:#fff;font-size:0.8rem;padding:9px 16px}
+  .btn-cv:hover{background:var(--accent-ink);transform:translateY(-2px)}
+
+  /* ---- Shared ---- */
+  .eyebrow{font-family:var(--font-mono);font-size:0.72rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent-ink);display:inline-flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:26px;height:2px;background:var(--accent)}
+  .section{padding:80px 0;scroll-margin-top:78px}
+  .section-head{margin-bottom:40px}
+  .section-title{font-size:clamp(1.9rem,4vw,2.7rem);margin-top:14px}
+  .section-sub{color:var(--muted);font-size:1.05rem;margin-top:12px;max-width:62ch}
+
+  /* ---- Hero ---- */
+  .hero{padding:84px 0 60px}
+  .hero-inner{display:grid;grid-template-columns:1.12fr 0.88fr;gap:52px;align-items:center}
+  .hero-name{font-size:clamp(2.9rem,7.5vw,4.7rem);margin:18px 0 0}
+  .hero-role{font-family:var(--font-display);font-weight:500;font-size:clamp(1.1rem,2.6vw,1.45rem);margin:14px 0 20px}
+  .hero-role .sep{color:var(--accent);padding:0 6px}
+  .lead{font-size:1.13rem;color:var(--muted);line-height:1.7;max-width:54ch}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+  .readout{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+  .readout span{font-family:var(--font-mono);font-size:0.78rem;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:7px 14px}
+  .readout b{color:var(--accent-ink);font-weight:600}
+
+  /* ---- Hero figure (signature) ---- */
+  .fig-card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px 22px 18px}
+  .fig-card svg{width:100%;height:auto}
+  .fig-cap{font-family:var(--font-mono);font-size:0.7rem;color:var(--muted-soft);letter-spacing:0.06em;margin-top:14px;display:flex;align-items:center;gap:8px}
+  .fig-cap .pulse{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+  .axis{stroke:var(--line-2);stroke-width:1.5}
+  .gridline{stroke:var(--line);stroke-width:1}
+  .reg-line{stroke:var(--accent);stroke-width:2.6;fill:none;stroke-linecap:round;stroke-dasharray:430;stroke-dashoffset:430;animation:draw 1.6s .45s cubic-bezier(.22,.61,.36,1) forwards}
+  .dot{fill:var(--ink);opacity:0;transform-box:fill-box;transform-origin:center;animation:pop .5s cubic-bezier(.34,1.56,.64,1) forwards;animation-delay:calc(.5s + var(--i,0)*.07s)}
+  .dot.hot{fill:var(--accent-2)}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @keyframes pop{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
+
+  /* ---- Stats ---- */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:54px}
+  .stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
+  .stat-num{font-family:var(--font-mono);font-size:2.1rem;font-weight:600;line-height:1}
+  .stat-label{font-size:0.85rem;color:var(--muted);margin-top:9px}
+
+  /* ---- Projects ---- */
+  .featured{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:16px;padding:30px 32px;margin-bottom:18px;transition:transform .2s,box-shadow .2s,border-color .2s}
+  .featured:hover{transform:translateY(-3px);box-shadow:0 18px 42px -24px rgba(14,23,38,0.42);border-left-color:var(--accent-2)}
+  .grid-projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+  .panel{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:14px;padding:24px 26px;transition:transform .2s,box-shadow .2s,border-color .2s;display:flex;flex-direction:column}
+  .panel:hover{transform:translateY(-3px);box-shadow:0 14px 30px -20px rgba(14,23,38,0.35);border-left-color:var(--accent-2)}
+  .panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:12px}
+  .tag{font-family:var(--font-mono);font-size:0.66rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent-ink);background:rgba(15,181,166,0.10);border:1px solid rgba(15,181,166,0.22);padding:5px 10px;border-radius:6px;white-space:nowrap}
+  .panel-index{font-family:var(--font-mono);font-size:0.85rem;color:var(--muted-soft)}
+  .panel-title{font-size:1.25rem;font-weight:600;margin-bottom:11px}
+  .featured .panel-title{font-size:1.65rem}
+  .panel-body{color:var(--muted);line-height:1.65;margin-bottom:16px;font-size:0.97rem;flex:1}
+  .featured .panel-body{max-width:64ch;font-size:1.02rem}
+  .metrics{display:flex;flex-wrap:wrap;gap:8px}
+  .metric{font-family:var(--font-mono);font-size:0.74rem;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:7px;padding:6px 10px}
+  .metric b{color:var(--muted-soft);font-weight:500}
+  .panel-actions{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+
+  /* ---- About ---- */
+  .about-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:52px;align-items:start}
+  .bio p{color:var(--muted);font-size:1.06rem;line-height:1.75;margin-bottom:16px}
+  .edu{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-top:8px}
+  .edu .skill-label{margin-bottom:8px}
+  .edu .edu-school{font-family:var(--font-display);font-weight:600;font-size:1.05rem}
+  .edu .edu-meta{color:var(--muted);font-size:0.92rem;margin-top:4px}
+  .skill-block{margin-bottom:20px}
+  .skill-label{font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted-soft);margin-bottom:11px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{font-size:0.85rem;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 14px;transition:border-color .15s,color .15s}
+  .chip:hover{border-color:var(--accent);color:var(--accent-ink)}
+
+  /* ---- Contact ---- */
+  .contact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:8px}
+  .contact-card{display:flex;flex-direction:column;gap:7px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 22px;transition:border-color .15s,transform .15s}
+  .contact-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .cc-label{font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent-ink)}
+  .cc-value{font-size:1.05rem;font-weight:500;word-break:break-word}
+
+  /* ---- Footer ---- */
+  .foot{border-top:1px solid var(--line);padding:30px 0;margin-top:30px}
+  .foot-inner{max-width:1080px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;font-family:var(--font-mono);font-size:0.75rem;color:var(--muted-soft)}
+  .foot-links{display:flex;gap:18px}
+  .foot a{color:var(--muted)}
+  .foot a:hover{color:var(--accent-ink)}
+
+  /* ---- Reveal ---- */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---- Responsive ---- */
+  @media (max-width:860px){
+    .hero-inner{grid-template-columns:1fr;gap:38px}
+    .fig-card{max-width:440px}
+    .about-grid{grid-template-columns:1fr;gap:36px}
+  }
+  @media (max-width:600px){
+    .nav-links{display:none}
+    .hero{padding:52px 0 40px}
+    .section{padding:60px 0}
+    .stats{grid-template-columns:1fr;margin-top:40px}
+    .contact-grid{grid-template-columns:1fr}
+    .featured,.panel{padding:24px 22px}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+    .reveal{opacity:1;transform:none}
+    .reg-line{stroke-dashoffset:0}
+    .dot{opacity:1}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav" id="top">
+  <div class="nav-inner">
+    <a href="#top" class="brand">Sreyhong Heng<span class="d">.</span></a>
+    <div class="nav-right">
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <!-- Place your CV PDF next to this file (named MYCV_HENGSREYHONG.pdf) -->
+      <a class="btn btn-cv" href="MYCV_HENGSREYHONG.pdf" download>Download CV</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div>
+          <span class="eyebrow">Portfolio &middot; Phnom Penh, KH</span>
+          <h1 class="hero-name">Sreyhong Heng</h1>
+          <p class="hero-role">Data Analyst <span class="sep">/</span> Machine Learning Enthusiast</p>
+          <p class="lead">Third-year Applied Mathematics &amp; Statistics student at the Institute of Technology of Cambodia. I turn messy data into models that hold up &mdash; and into visuals that make the story obvious.</p>
+          <div class="hero-cta">
+            <a href="#work" class="btn btn-primary">View work</a>
+            <a href="#contact" class="btn btn-ghost">Get in touch</a>
+          </div>
+          <div class="readout">
+            <span><b>focus</b> = analysis &middot; modeling &middot; viz</span>
+            <span><b>tools</b> = python &middot; pandas &middot; sklearn</span>
+          </div>
+        </div>
+
+        <figure class="fig-card">
+          <svg viewBox="0 0 380 300" role="img" aria-labelledby="figtitle figdesc">
+            <title id="figtitle">A scatter plot with a fitted regression line</title>
+            <desc id="figdesc">Data points trending upward with a teal line of best fit drawn through them.</desc>
+            <line class="gridline" x1="44" y1="90" x2="358" y2="90"/>
+            <line class="gridline" x1="44" y1="170" x2="358" y2="170"/>
+            <line class="axis" x1="44" y1="34" x2="44" y2="262"/>
+            <line class="axis" x1="44" y1="262" x2="358" y2="262"/>
+            <path class="reg-line" d="M 56 236 L 350 70"/>
+            <circle class="dot" style="--i:0" cx="62"  cy="224" r="5.5"/>
+            <circle class="dot" style="--i:1" cx="98"  cy="206" r="5.5"/>
+            <circle class="dot" style="--i:2" cx="126" cy="216" r="5.5"/>
+            <circle class="dot" style="--i:3" cx="158" cy="182" r="5.5"/>
+            <circle class="dot" style="--i:4" cx="192" cy="172" r="5.5"/>
+            <circle class="dot" style="--i:5" cx="222" cy="186" r="5.5"/>
+            <circle class="dot" style="--i:6" cx="256" cy="142" r="5.5"/>
+            <circle class="dot" style="--i:7" cx="290" cy="122" r="5.5"/>
+            <circle class="dot hot" style="--i:8" cx="322" cy="98" r="6.5"/>
+            <circle class="dot" style="--i:9" cx="348" cy="82" r="5.5"/>
+          </svg>
+          <figcaption class="fig-cap"><span class="pulse"></span>fig. 01 &mdash; fitting a line through the noise</figcaption>
+        </figure>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><div class="stat-num" data-target="3" data-pad="2">00</div><div class="stat-label">current year at ITC</div></div>
+        <div class="stat"><div class="stat-num" data-target="4" data-pad="2">00</div><div class="stat-label">projects shipped</div></div>
+        <div class="stat"><div class="stat-num" data-target="0.81" data-decimals="2">0.00</div><div class="stat-label">best model accuracy</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== WORK ===================== -->
+  <section class="section" id="work">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Work &middot; Selected</span>
+        <h2 class="section-title">Projects</h2>
+        <p class="section-sub">A mix of statistics, machine learning, and the numerical methods underneath them &mdash; each built end-to-end, from notebook to something you can run.</p>
+      </div>
+
+      <article class="featured reveal">
+        <div class="panel-head">
+          <span class="tag">Deep Learning &middot; Vision</span>
+          <span class="panel-index">01</span>
+        </div>
+        <h3 class="panel-title">Neural Showdown &mdash; Cat / Dog / Other Classifier</h3>
+        <p class="panel-body">An image classifier that decides whether a photo is a cat, a dog, or neither, running on a three-layer fully-connected network wired up largely from scratch. It&rsquo;s wrapped in an interactive web app where a &ldquo;tug-of-war&rdquo; bar animates the model&rsquo;s confidence in real time as it weighs each class.</p>
+        <div class="metrics">
+          <span class="metric"><b>net</b> 3-layer ANN</span>
+          <span class="metric"><b>input</b> 128&times;128</span>
+          <span class="metric"><b>classes</b> 3</span>
+          <span class="metric"><b>stack</b> pytorch &middot; numpy</span>
+        </div>
+        <div class="panel-actions">
+          <!-- Replace these two URLs with your live Streamlit app and GitHub repo -->
+          <a class="btn btn-primary btn-sm" href="https://catanddog12.streamlit.app/" target="_blank" rel="noopener">Live demo &nearr;</a>
+          <a class="btn btn-ghost btn-sm" href="https://github.com/hong86097-afk/CatandDog" target="_blank" rel="noopener">View code</a>
+        </div>
+      </article>
+
+      <div class="grid-projects">
+        <article class="panel reveal">
+          <div class="panel-head">
+            <span class="tag">Machine Learning</span>
+            <span class="panel-index">02</span>
+          </div>
+          <h3 class="panel-title">Customer Churn Prediction</h3>
+          <p class="panel-body">A logistic-regression model trained on telecom customer data to flag who&rsquo;s likely to churn &mdash; and to surface the factors that push the decision.</p>
+          <div class="metrics">
+            <span class="metric"><b>accuracy</b> 0.81</span>
+            <span class="metric"><b>model</b> logistic reg.</span>
+            <span class="metric"><b>data</b> telecom</span>
+          </div>
+          <div class="panel-actions">
+          <!-- Replace these two URLs with your live Streamlit app and GitHub repo -->
+          <a class="btn btn-primary btn-sm" href="https://shop11-r9gzriudd8h2pxmqiqdftg.streamlit.app/" target="_blank" rel="noopener">Live demo &nearr;</a>
+          <a class="btn btn-ghost btn-sm" href="https://github.com/hong86097-afk/shop11" target="_blank" rel="noopener">View code</a>
+        </div>
+        </article>
+
+        <article class="panel reveal">
+          <div class="panel-head">
+            <span class="tag">Forecasting</span>
+            <span class="panel-index">03</span>
+          </div>
+          <h3 class="panel-title">Cambodia Import / Export Forecasting</h3>
+          <p class="panel-body">A regression model that predicts Cambodia&rsquo;s import and export flows from historical trade records.</p>
+          <div class="metrics">
+            <span class="metric"><b>method</b> regression</span>
+            <span class="metric"><b>target</b> trade flows</span>
+            <span class="metric"><b>data</b> historical</span>
+          </div>
+        </article>
+
+        <article class="panel reveal">
+          <div class="panel-head">
+            <span class="tag">Numerical Methods</span>
+            <span class="panel-index">04</span>
+          </div>
+          <h3 class="panel-title">Cubic Spline Interpolation</h3>
+          <p class="panel-body">A cubic-spline engine &mdash; Thomas-algorithm solver plus clamped and natural splines &mdash; tracing a smooth outline through scattered control points, with no SciPy in sight.</p>
+          <div class="metrics">
+            <span class="metric"><b>method</b> cubic spline</span>
+            <span class="metric"><b>solver</b> thomas algo</span>
+            <span class="metric"><b>segments</b> 3</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ABOUT ===================== -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="reveal">
+          <div class="section-head" style="margin-bottom:24px">
+            <span class="eyebrow">Who &middot; Behind the work</span>
+            <h2 class="section-title">About</h2>
+          </div>
+          <div class="bio">
+            <p>I&rsquo;m drawn to the part of a problem where raw, messy data first starts to make sense. Most of my work lives at the intersection of statistics and machine learning &mdash; building models that predict, classify, or forecast, then pressure-testing them until the results are honest.</p>
+            <p>I like clean pipelines, readable code, and visuals that make a finding obvious to someone seeing it for the first time. Right now I&rsquo;m deepening my footing in deep learning and shipping projects end-to-end &mdash; from a notebook to a deployed app people can actually click.</p>
+          </div>
+          <div class="edu">
+            <div class="skill-label">education</div>
+            <div class="edu-school">Institute of Technology of Cambodia</div>
+            <div class="edu-meta">Applied Mathematics &amp; Statistics &middot; 3rd year</div>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <div class="section-head" style="margin-bottom:24px">
+            <span class="eyebrow">Toolkit &middot; Stack</span>
+            <h2 class="section-title">What I work with</h2>
+          </div>
+          <div class="skill-block">
+            <div class="skill-label">languages</div>
+            <div class="chips"><span class="chip">Python</span><span class="chip">SQL</span></div>
+          </div>
+          <div class="skill-block">
+            <div class="skill-label">ml &amp; stats</div>
+            <div class="chips"><span class="chip">scikit-learn</span><span class="chip">PyTorch</span><span class="chip">Regression</span><span class="chip">Classification</span><span class="chip">Statistics</span></div>
+          </div>
+          <div class="skill-block">
+            <div class="skill-label">data &amp; viz</div>
+            <div class="chips"><span class="chip">pandas</span><span class="chip">NumPy</span><span class="chip">Matplotlib</span><span class="chip">Streamlit</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONTACT ===================== -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Reach out &middot; Say hi</span>
+        <h2 class="section-title">Get in touch</h2>
+        <p class="section-sub">Open to internships, data and ML projects, and good conversations about models.</p>
+      </div>
+      <div class="contact-grid reveal">
+        <a class="contact-card" href="mailto:hong86097@gmail.com">
+          <span class="cc-label">email</span>
+          <span class="cc-value">hong86097@gmail.com</span>
+        </a>
+        <a class="contact-card" href="tel:+85595535582">
+          <span class="cc-label">phone</span>
+          <span class="cc-value">+855 955 355 82</span>
+        </a>
+        <!-- Replace with your real GitHub and LinkedIn -->
+        <a class="contact-card" href="https://github.com/hong86097-afk" target="_blank" rel="noopener">
+          <span class="cc-label">github</span>
+          <span class="cc-value">github.com/hong86097-afk</span>
+        </a>
+        <a class="contact-card" href="https://www.linkedin.com/in/heng-sreyhong-508587370/" target="_blank" rel="noopener">
+          <span class="cc-label">linkedin</span>
+          <span class="cc-value">linkedin.com/in/heng-sreyhong-508587370/</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <span>&copy; 2026 Sreyhong Heng &middot; built from scratch</span>
+    <div class="foot-links">
+      <a href="https://github.com/yourusername" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="#top">Back to top &uarr;</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav border on scroll
+  const nav = document.querySelector('.nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 10);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Scroll reveal
+  const revealIO = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add('in'); revealIO.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach((el) => revealIO.observe(el));
+
+  // Count-up stats
+  function countUp(el) {
+    const target = parseFloat(el.dataset.target);
+    const decimals = el.dataset.decimals ? +el.dataset.decimals : 0;
+    const pad = el.dataset.pad ? +el.dataset.pad : 0;
+    const dur = 1100, start = performance.now();
+    const fmt = (n) => { let s = n.toFixed(decimals); return pad ? s.padStart(pad, '0') : s; };
+    function tick(now) {
+      const p = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = fmt(target * eased);
+      if (p < 1) requestAnimationFrame(tick); else el.textContent = fmt(target);
+    }
+    requestAnimationFrame(tick);
+  }
+  const statIO = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) { countUp(e.target); statIO.unobserve(e.target); }
+    });
+  }, { threshold: 0.6 });
+  document.querySelectorAll('.stat-num[data-target]').forEach((el) => statIO.observe(el));
+
+  // Active nav link
+  const navMap = {};
+  document.querySelectorAll('.nav-links a').forEach((a) => { navMap[a.getAttribute('href').slice(1)] = a; });
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting && navMap[e.target.id]) {
+        Object.values(navMap).forEach((a) => a.classList.remove('active'));
+        navMap[e.target.id].classList.add('active');
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  document.querySelectorAll('main section[id]').forEach((s) => spy.observe(s));
+</script>
+
+</body>
+</html>
